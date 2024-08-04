@@ -1,0 +1,187 @@
+<%- include("../partial/userHeader") %>
+<div class="container mt-4">
+    <h3 class="mt-3" style="color: #046963; margin-bottom:70px">Create User Address</h3>
+    <form id="addressForm" class="border-0 p-3">
+        <div class="row mb-50">
+            <div class="form-group col-md-4">
+                <label for="addressType">Address Type:</label>
+                <select class="form-control border-3" id="addressType" name="addressType" required>
+                    <option value="">Select Address Type</option>
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="PO Box">PO Box</option>
+                    <option value="APO/FPO/DPO">APO/FPO/DPO</option>
+                    <option value="Temporary">Temporary</option>
+                </select>
+                <span class="error-message" id="error-addressType"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control border-3" id="name" name="name" required>
+                <span class="error-message" id="error-name"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="city">City:</label>
+                <input type="text" class="form-control border-3" id="city" name="city" required>
+                <span class="error-message" id="error-city"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="landMark">Landmark:</label>
+                <input type="text" class="form-control border-3" id="landMark" name="landMark" required>
+                <span class="error-message" id="error-landMark"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="state">State:</label>
+                <input type="text" class="form-control border-3" id="state" name="state" required>
+                <span class="error-message" id="error-state"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="pincode">Pincode:</label>
+                <input type="text" class="form-control border-3" id="pincode" name="pincode" required>
+                <span class="error-message" id="error-pincode"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="form-group col-md-4">
+                <label for="phone">Phone:</label>
+                <input type="text" class="form-control border-3" id="phone" name="phone" required>
+                <span class="error-message" id="error-phone"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="altPhone">Alternate Phone:</label>
+                <input type="text" class="form-control border-3" id="altPhone" name="altPhone" required>
+                <span class="error-message" id="error-altPhone"></span>
+            </div>
+        </div>
+        <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('addressForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        if (validateForm()) {
+            submitForm();
+        }
+    });
+
+    function validateForm() {
+        const requiredFields = ["addressType", "name", "city", "landMark", "state", "pincode", "phone", "altPhone"];
+        let isValid = true;
+
+        // Clear all previous error messages
+        document.querySelectorAll('.error-message').forEach(function(span) {
+            span.textContent = '';
+        });
+
+        // Validate required fields
+        requiredFields.forEach(function(field) {
+            const input = document.getElementById(field);
+            if (input.value.trim() === "") {
+                displayError(input, 'This field is required.');
+                isValid = false;
+            }
+        });
+
+        // Validate pincode format
+        const pincodePattern = /^[1-9][0-9]{5}$/;
+        const pincode = document.getElementById('pincode').value;
+        if (!pincodePattern.test(pincode)) {
+            displayError(document.getElementById('pincode'), 'Pincode must be exactly 6 digits long and cannot start with 0.');
+            isValid = false;
+        }
+
+        // Validate phone and alternate phone numbers format
+        const phonePattern = /^[1-9][0-9]{9}$/;
+        const phone = document.getElementById('phone').value;
+        if (!phonePattern.test(phone)) {
+            displayError(document.getElementById('phone'), 'Phone number must be exactly 10 digits long and cannot start with 0.');
+            isValid = false;
+        }
+
+        const altPhone = document.getElementById('altPhone').value;
+        if (!phonePattern.test(altPhone)) {
+            displayError(document.getElementById('altPhone'), 'Alternate phone number must be exactly 10 digits long and cannot start with 0.');
+            isValid = false;
+        }
+
+        // Validate name, city, and landmark fields to contain alphabetic characters
+        const alphabeticPattern = /[a-zA-Z]/;
+        const name = document.getElementById('name').value;
+        if (!alphabeticPattern.test(name)) {
+            displayError(document.getElementById('name'), 'Name should contain alphabetic characters.');
+            isValid = false;
+        }
+
+        const city = document.getElementById('city').value;
+        if (!alphabeticPattern.test(city)) {
+            displayError(document.getElementById('city'), 'City should contain alphabetic characters.');
+            isValid = false;
+        }
+
+        const landMark = document.getElementById('landMark').value;
+        if (!alphabeticPattern.test(landMark)) {
+            displayError(document.getElementById('landMark'), 'Landmark should contain alphabetic characters.');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function displayError(input, message) {
+        const errorSpan = document.getElementById('error-' + input.id);
+        errorSpan.textContent = message;
+    }
+
+    function submitForm() {
+        const formData = {
+            addressType: document.getElementById('addressType').value,
+            name: document.getElementById('name').value,
+            city: document.getElementById('city').value,
+            landMark: document.getElementById('landMark').value,
+            state: document.getElementById('state').value,
+            pincode: document.getElementById('pincode').value,
+            phone: document.getElementById('phone').value,
+            altPhone: document.getElementById('altPhone').value
+        };
+
+        fetch('/addAddress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message,
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = '/profile'; 
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message,
+                    confirmButtonText: 'OK'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred. Please try again later.',
+                confirmButtonText: 'OK'
+            });
+        });
+    }
+</script>
+<%- include("../partial/footer") %>

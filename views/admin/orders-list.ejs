@@ -1,0 +1,101 @@
+<%- include("../partial/adminHeader") %>
+
+<style>
+    .pagination {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .btn {
+      margin: 0 5px;
+      padding: 5px 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      text-decoration: none;
+      color: #333;
+    }
+    
+    .active {
+      color: #fff;
+    }
+    
+    .btn:hover {
+      background-color: #ddd;
+    }
+</style>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order List</h2>
+        </div>
+    </div>
+   
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date</th>
+                        <th scope="col" class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach(order => { %>
+                        <tr>
+                            <td><b><%= order.address && order.address[0] ? order.address[0].name : 'N/A' %></b></td>
+                            <td><%= order.address && order.address[0] ? order.address[0].phone : 'N/A' %></td>
+                            <td>₹<%= order.totalPrice ? order.totalPrice.toLocaleString() : '0' %></td>
+                            <td>
+                                <% if (order.status === "Canceled") { %>
+                                    <span class="badge rounded-pill bg-danger"><%= order.status %></span>
+                                <% } else if (order.status === "Confirmed" || order.status === "Payment Pending") { %>
+                                    <span class="badge rounded-pill bg-warning text-dark"><%= order.status %></span>
+                                <% } else if (order.status === "Shipped") { %>
+                                    <span class="badge rounded-pill bg-primary"><%= order.status %></span>
+                                <% } else if (order.status === "Delivered") { %>
+                                    <span class="badge rounded-pill bg-success"><%= order.status %></span>
+                                <% } else if (order.status === "Returned") { %>
+                                    <span class="badge rounded-pill bg-warning text-dark"><%= order.status %></span>
+                                <% } else { %>
+                                    <span class="badge rounded-pill bg-secondary">Pending</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' }; %>
+                                <%= new Date(order.createdOn).toLocaleDateString('en-US', dateOptions) %>
+                            </td>
+                            <td class="text-end">
+                                <a href="/admin/orderDetailsAdmin?id=<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+
+            <% if (totalPages) { %>
+                <div class="pagination">
+                    <% if (currentPage > 1) { %>
+                        <button class="btn btn-sm"><a href="/admin/orderList?page=<%= currentPage - 1 %>">Previous</a></button>
+                    <% } %>
+                
+                    <% for (let i = 1; i <= totalPages; i++) { %> 
+                        <button class="btn btn-sm <%= i === currentPage ? 'active' : '' %>">
+                            <a href="/admin/orderList?page=<%= i %>"><%= i %></a>
+                        </button>
+                    <% } %>
+                
+                    <% if (currentPage < totalPages) { %>
+                        <button class="btn btn-sm"><a href="/admin/orderList?page=<%= currentPage + 1 %>">Next</a></button>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<%- include("../partial/adminFooter") %>

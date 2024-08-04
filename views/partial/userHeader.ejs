@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:07 GMT -->
+<head>
+    <meta charset="utf-8">
+    <title>Evara - eCommerce HTML Template</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/assets/css/maind134.css?v=3.4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+
+</head>
+
+<body>
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo logo-width-1" style="width: 5px;">
+                    <a href="/"><img src="assets/imgs/theme/icons/feature-1.png" alt="logo" style="width: 100%; height: auto;"></a>
+                </div>
+                
+            
+                <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block " style="padding-left: 260px;">
+                        <nav>
+                            <ul>
+                                <li><a  href="/">Home</i></a>
+                                   
+                                </li>
+                                <li>
+                                    <a href="page-about">About</a>
+                                </li>
+                                <li><a href="shop">Shop</i></a>
+                                   
+                                </li>
+                                <li>
+                                    <a href="page-contact">Contact</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="header-action-right" style="padding-left: 300px;">
+                        <div class="header-action-2">
+                            <div class="header-action-2">
+                                <div class="header-action-icon-2">
+                                    <a href="/wishlist">
+                                        <img class="svgInject" alt="Evara" src="/assets/imgs/theme/icons/icon-heart.svg">
+                                        <!-- <span class="pro-count blue">4</span> -->
+                                    </a>
+                                </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="/cart">
+                                    <img alt="Evara" src="/assets/imgs/theme/icons/icon-cart.svg">
+                                    <!-- <span class="pro-count blue">2</span> -->
+                                </a>
+                                  <!-- Move the conditional logic outside of the header-action-icon-2 div -->
+                                  <% if (locals.user) { %>
+                                    <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+                                        <!-- Uncomment the following line if you want to use an icon -->
+                                        <!-- <i class="fas fa-/user-circle"></i> -->
+                                        <img class="svgInject" alt="Evara" src="/assets/imgs/theme/icons/user-profile.svg" style="height: 25px; width: 25px; margin-top: 2px;">
+                                      </a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                        <a class="dropdown-item" href="/profile"><i class="material-icons md-perm_identity"></i> Profile</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="/logout"><i class="material-icons md-exit_to_app"></i> Logout</a>
+                                      </div>
+                                <% } else { %>
+                                    <!-- Display content for non-logged-in users -->
+                                    <li><a href="/login">Login</a></li>
+                                    <li><a href="/admin/login">Admin</a></li>
+                                <% } %>                  
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    
+
+        
+
