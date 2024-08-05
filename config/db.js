@@ -1,9 +1,10 @@
 const mongoose= require('mongoose');
 require('dotenv').config();
 
-const MONGODB_URL= "mongodb+srv://chinoos111:aS3dtLwyEuQARIQ6@cluster0.lvoa0wv.mongodb.net/test"
-console.log(MONGODB_URL)
-mongoose.connect(MONGODB_URL);
+
+
+mongoose.connect("mongodb+srv://chinoos111:aS3dtLwyEuQARIQ6@cluster0.lvoa0wv.mongodb.net/test");
+console.log("reached")
 
 mongoose.connection.on('connected',()=>{
     console.log('Connected to Database Successfully')
